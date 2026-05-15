@@ -42,7 +42,7 @@ async function registerController(req, res) {
 
 async function loginController(req, res) {
     const { userName, email, password } = req.body
-    console.log("Query conditions:", { userName, email })
+    // console.log("Query conditions:", { userName, email })
     const user = await userModel.findOne({
         $or: [
             {
@@ -68,7 +68,8 @@ async function loginController(req, res) {
     }
 
     const token = jwt.sign({
-        id: user._id
+        id: user._id,
+        userName: user.userName
     }, process.env.JWT_SECRET, { expiresIn: '1d' })
 
     res.cookie('jwt_token', token)
